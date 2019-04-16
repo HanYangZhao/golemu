@@ -208,14 +208,14 @@ func handleRequest(conn net.Conn, tags llrp.Tags) {
 
 		// Respond according to the LLRP packet header
 		header := binary.BigEndian.Uint16(buf[:2])
-		if header == llrp.SetReaderConfigHeader || header == llrp.KeepaliveAckHeader {
-			if header == llrp.SetReaderConfigHeader {
+		if header == llrp.EnableRospecHeader || header == llrp.KeepaliveAckHeader {
+			if header == llrp.EnableRospecHeader {
 				// SRC received, start ROAR
-				log.Info(">>> SET_READER_CONFIG")
-				conn.Write(llrp.SetReaderConfigResponse(currentMessageID))
+				log.Info(">>> ENABLE_ROSPEC")
+				conn.Write(llrp.EnableRospecResponse(currentMessageID))
 				atomic.AddUint32(&currentMessageID, 1)
 				runtime.Gosched()
-				log.Info("<<< SET_READER_CONFIG_RESPONSE")
+				log.Info("<<< ENABLE_ROSPEC_RESPONSE")
 			} else if header == llrp.KeepaliveAckHeader {
 				// KA receieved, continue ROAR
 				log.Info(">>> KEEP_ALIVE_ACK")
@@ -287,6 +287,42 @@ func handleRequest(conn net.Conn, tags llrp.Tags) {
 					}
 				}
 			}()
+		} else if header == llrp.GetReaderCapabilityHeader {
+			log.Info(">>> GET_READER_CAPABILITY")
+			conn.Write(llrp.GetReaderCapabilityResponse(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< GET_READER_CAPABILITY_RESPONSE")
+		} else if header == llrp.GetReaderConfigHeader {
+			log.Info(">>> GET_READER_CONFIG")
+			conn.Write(llrp.GetReaderConfigResponse(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< GET_READER_CONFIG")
+		} else if header == llrp.SetReaderConfigHeader {
+			log.Info(">>> SET_READER_CONFIG")
+			conn.Write(llrp.SetReaderConfigResponse(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< SET_READER_CONFIG_RESPONSE")
+		} else if header == llrp.DeleteAccessSpecHeader {
+			log.Info(">>> DELETE_ACCESS_SPEC")
+			conn.Write(llrp.DeleteAccessSpecResponse(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< DELETE_ACCESS_SPEC_RESPONSE")
+		} else if header == llrp.DeleteRospecHeader {
+			log.Info(">>> DELETE_ROSPEC_HEADER")
+			conn.Write(llrp.DeleteRospecResponse(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< DELETE_ROSPEC_RESPONSE")
+		} else if header == llrp.AddRospecHeader {
+			log.Info(">>> ADD_ROSPEC")
+			conn.Write(llrp.AddRospecResponse(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< ADD_ROSPEC_RESPONSE")
 		} else {
 			// Unknown LLRP packet received, reset the connection
 			log.Warnf("unknown header: %v, reqlen: %v", header, reqLen)

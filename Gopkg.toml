@@ -35,7 +35,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/iomz/go-llrp"
+  name = "github.com/hanyangzhao/go-llrp"
 
 [[constraint]]
   name = "github.com/sirupsen/logrus"
