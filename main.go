@@ -24,8 +24,8 @@ import (
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/iomz/go-llrp"
-	"github.com/iomz/go-llrp/binutil"
+	"github.com/hanyangzhao/go-llrp"
+	"github.com/hanyangzhao/go-llrp/binutil"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
