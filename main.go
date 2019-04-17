@@ -249,6 +249,7 @@ func handleRequest(conn net.Conn, tags llrp.Tags) {
 					select {
 					// ROAccessReport interval tick
 					case <-roarTicker.C:
+						trds := tags.BuildTagReportDataStack(*pdu)
 						log.WithFields(log.Fields{
 							"Reports":    len(trds),
 							"Total tags": trds.TotalTagCounts(),
