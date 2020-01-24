@@ -208,7 +208,14 @@ func handleRequest(conn net.Conn, tags llrp.Tags) {
 
 		// Respond according to the LLRP packet header
 		header := binary.BigEndian.Uint16(buf[:2])
-		if header == llrp.EnableRospecHeader || header == llrp.KeepaliveAckHeader {
+		if header == llrp.ImpinjEnableCutomMessageHeader {
+			log.Info(">>> Enable Custom Impinj Message")
+			conn.Write(llrp.ImpinjEnableCutomMessage(currentMessageID))
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			log.Info("<<< Enable Custom Impinj Message")
+		}
+		else if header == llrp.EnableRospecHeader || header == llrp.KeepaliveAckHeader {
 			if header == llrp.EnableRospecHeader {
 				// SRC received, start ROAR
 				log.Info(">>> ENABLE_ROSPEC")
