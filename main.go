@@ -214,8 +214,7 @@ func handleRequest(conn net.Conn, tags llrp.Tags) {
 			atomic.AddUint32(&currentMessageID, 1)
 			runtime.Gosched()
 			log.Info("<<< Enable Custom Impinj Message")
-		}
-		else if header == llrp.EnableRospecHeader || header == llrp.KeepaliveAckHeader {
+		} else if header == llrp.EnableRospecHeader || header == llrp.KeepaliveAckHeader {
 			if header == llrp.EnableRospecHeader {
 				// SRC received, start ROAR
 				log.Info(">>> ENABLE_ROSPEC")
