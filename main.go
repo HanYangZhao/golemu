@@ -95,7 +95,7 @@ const (
 // APIPostTag redirects the tag addition request
 func APIPostTag(c *gin.Context) {
 	var json []llrp.TagRecord
-	c.BindWith(&json, binding.JSON)
+	c.MustBindWith(&json, binding.JSON)
 	if res := ReqAddTag("add", json); res == "error" {
 		c.String(http.StatusAlreadyReported, "The tag already exists!\n")
 	} else {
@@ -106,7 +106,7 @@ func APIPostTag(c *gin.Context) {
 // APIDeleteTag redirects the tag deletion request
 func APIDeleteTag(c *gin.Context) {
 	var json []llrp.TagRecord
-	c.BindWith(&json, binding.JSON)
+	c.MustBindWith(&json, binding.JSON)
 	if res := ReqDeleteTag("delete", json); res == "error" {
 		c.String(http.StatusNoContent, "The tag doesn't exist!\n")
 	} else {
