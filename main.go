@@ -312,6 +312,17 @@ func handleRequest(conn net.Conn, tags llrp.Tags) {
 			atomic.AddUint32(&currentMessageID, 1)
 			runtime.Gosched()
 			log.Info("<<< SET_READER_CONFIG_RESPONSE")
+		} else if header == llrp.EventsAndReportsHeader {
+			log.Info(">>> EVENTS_AND_REPORTS")
+			var data []byte
+			roar := llrp.NewROAccessReport(data, currentMessageID)
+			err := roar.Send(conn)
+			atomic.AddUint32(&currentMessageID, 1)
+			runtime.Gosched()
+			if err != nil {
+				log.Warn(err)
+			}
+			log.Info("<<< EVENTS_AND_REPORTS_RESPONSE")
 		} else if header == llrp.DeleteAccessSpecHeader {
 			log.Info(">>> DELETE_ACCESS_SPEC")
 			conn.Write(llrp.DeleteAccessSpecResponse(currentMessageID))
