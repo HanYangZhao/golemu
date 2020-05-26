@@ -11,7 +11,6 @@ require (
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/hanyangzhao/go-llrp v0.0.0-20200521220329-5df6c930f1d7
 	github.com/iomz/go-llrp v0.0.0-20200428195842-8dcd56d3497b // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/sirupsen/logrus v1.6.0
